@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<BaseLayout
+  title="Wahl Peanut Blog — Barber Tips, Deals & Guides"
+  description="Barber tips, at-home haircut guides, the best Wahl Peanut deals updated monthly, and more from the PeanutClippers.com team."
+>
+  <Header />
+  <main>
+    <section class="hub-hero">
+      <div class="container">
+        <p class="section-label">Blog</p>
+        <h1>Tips, Guides & Deals</h1>
+        <p class="hub-sub">Barber techniques, at-home guides, and the best Wahl Peanut deals — updated regularly.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="blog-coming">
+          <p class="blog-coming-icon">✍️</p>
+          <h2>Coming Soon</h2>
+          <p>Blog posts are in progress. Check back soon for barber tips, at-home haircut guides, and the best monthly deals on Wahl Peanuts.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+.hub-hero {
+  padding: var(--space-16) 0 var(--space-8);
+  border-bottom: 1px solid var(--border);
+}
+.hub-sub {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin-top: var(--space-3);
+  max-width: 600px;
+}
+.blog-coming {
+  text-align: center;
+  padding: var(--space-16) var(--space-8);
+  max-width: 500px;
+  margin: 0 auto;
+}
+.blog-coming-icon { font-size: 3rem; margin-bottom: var(--space-4); }
+.blog-coming p {
+  color: var(--text-muted);
+  margin-top: var(--space-3);
+}
+</style>

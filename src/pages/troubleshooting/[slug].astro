@@ -1,0 +1,30 @@
+---
+import { getCollection, render } from 'astro:content';
+import TroubleshootingLayout from '../../layouts/TroubleshootingLayout.astro';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('troubleshooting');
+  return guides.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { data } = entry;
+---
+
+<TroubleshootingLayout
+  title={data.title}
+  description={data.description}
+  problem={data.problem}
+  quickFix={data.quickFix}
+  severity={data.severity}
+  relatedProducts={data.relatedProducts}
+  pubDate={data.pubDate}
+  updatedDate={data.updatedDate}
+  section={entry.id}
+>
+  <Content />
+</TroubleshootingLayout>

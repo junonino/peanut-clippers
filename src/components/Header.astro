@@ -1,0 +1,243 @@
+---
+const navLinks = [
+  { href: '/reviews/', label: 'Reviews' },
+  { href: '/vs/', label: 'Compare' },
+  { href: '/how-to/', label: 'How-To' },
+  { href: '/accessories/', label: 'Accessories' },
+  { href: '/troubleshooting/', label: 'Troubleshooting' },
+  { href: '/blog/', label: 'Blog' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header" id="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo" id="logo-link" aria-label="Peanut Clippers — Home">
+      <!-- Peanut shape SVG icon -->
+      <svg class="logo-peanut" viewBox="0 0 28 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Top lobe -->
+        <ellipse cx="14" cy="11" rx="9" ry="10" fill="url(#peanut-grad)" />
+        <!-- Bottom lobe -->
+        <ellipse cx="14" cy="30" rx="8" ry="9" fill="url(#peanut-grad)" />
+        <!-- Waist connector -->
+        <rect x="9" y="17" width="10" height="7" rx="1" fill="url(#peanut-grad)" />
+        <!-- Texture lines on top lobe -->
+        <line x1="11" y1="7" x2="11" y2="15" stroke="rgba(10,10,10,0.3)" stroke-width="1" stroke-linecap="round"/>
+        <line x1="14" y1="5" x2="14" y2="17" stroke="rgba(10,10,10,0.3)" stroke-width="1" stroke-linecap="round"/>
+        <line x1="17" y1="7" x2="17" y2="15" stroke="rgba(10,10,10,0.3)" stroke-width="1" stroke-linecap="round"/>
+        <!-- Texture lines on bottom lobe -->
+        <line x1="11" y1="25" x2="11" y2="37" stroke="rgba(10,10,10,0.3)" stroke-width="1" stroke-linecap="round"/>
+        <line x1="14" y1="24" x2="14" y2="38" stroke="rgba(10,10,10,0.3)" stroke-width="1" stroke-linecap="round"/>
+        <line x1="17" y1="25" x2="17" y2="37" stroke="rgba(10,10,10,0.3)" stroke-width="1" stroke-linecap="round"/>
+        <!-- Waist outline for definition -->
+        <path d="M9 18 Q5 21 9 24" stroke="rgba(255,255,255,0.15)" stroke-width="0.5" fill="none"/>
+        <path d="M19 18 Q23 21 19 24" stroke="rgba(255,255,255,0.15)" stroke-width="0.5" fill="none"/>
+        <defs>
+          <linearGradient id="peanut-grad" x1="5" y1="0" x2="23" y2="40" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#e8e8e8"/>
+            <stop offset="50%" stop-color="#a0a0a0"/>
+            <stop offset="100%" stop-color="#c8c8c8"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span class="logo-text">
+        <span class="logo-word">PEANUT</span>
+        <span class="logo-word logo-word--dim">CLIPPERS</span>
+      </span>
+    </a>
+
+    <nav class="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        {navLinks.map(link => (
+          <li>
+            <a
+              href={link.href}
+              class={`nav-link ${currentPath.startsWith(link.href) ? 'nav-link--active' : ''}`}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <button class="hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <!-- Mobile nav -->
+  <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
+    <ul class="mobile-nav-list">
+      {navLinks.map(link => (
+        <li>
+          <a
+            href={link.href}
+            class={`mobile-nav-link ${currentPath.startsWith(link.href) ? 'mobile-nav-link--active' : ''}`}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</header>
+
+<style>
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: var(--text);
+  transition: opacity var(--transition);
+}
+
+.logo:hover { opacity: 0.85; }
+
+.logo-peanut {
+  width: 18px;
+  height: 26px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 6px rgba(192,192,192,0.2));
+  transition: filter var(--transition);
+}
+
+.logo:hover .logo-peanut {
+  filter: drop-shadow(0 0 10px rgba(192,192,192,0.45));
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.logo-word {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  color: var(--chrome-bright);
+}
+
+.logo-word--dim {
+  color: var(--chrome-dim);
+  font-size: 0.8rem;
+}
+
+/* Nav */
+.main-nav { display: flex; }
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  list-style: none;
+  margin: 0;
+}
+
+.nav-link {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), background var(--transition);
+}
+
+.nav-link:hover,
+.nav-link--active {
+  color: var(--chrome-bright);
+  background: var(--surface);
+}
+
+.nav-link--active {
+  color: var(--amber);
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-2);
+}
+
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--chrome);
+  border-radius: 2px;
+  transition: all var(--transition);
+}
+
+/* Mobile nav */
+.mobile-nav {
+  display: none;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: var(--space-4) 0;
+}
+
+.mobile-nav.open { display: block; }
+
+.mobile-nav-list {
+  list-style: none;
+  margin: 0;
+}
+
+.mobile-nav-link {
+  display: block;
+  padding: var(--space-3) var(--space-6);
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color var(--transition), background var(--transition);
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link--active {
+  color: var(--amber);
+  background: var(--surface-2);
+}
+
+@media (max-width: 768px) {
+  .main-nav { display: none; }
+  .hamburger { display: flex; }
+}
+</style>
+
+<script>
+const btn = document.getElementById('hamburger-btn');
+const nav = document.getElementById('mobile-nav');
+
+btn?.addEventListener('click', () => {
+  const isOpen = nav?.classList.toggle('open');
+  btn.setAttribute('aria-expanded', String(isOpen));
+  nav?.setAttribute('aria-hidden', String(!isOpen));
+});
+</script>

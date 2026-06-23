@@ -1,0 +1,225 @@
+---
+const year = new Date().getFullYear();
+
+const sections = [
+  {
+    title: 'Reviews',
+    links: [
+      { label: 'Wahl Peanut Corded', href: '/reviews/wahl-peanut-classic-corded' },
+      { label: 'Wahl Peanut Cordless', href: '/reviews/wahl-peanut-li-cordless' },
+      { label: 'Wahl Peanut Chrome', href: '/reviews/wahl-peanut-chrome' },
+      { label: 'All Reviews', href: '/reviews/' },
+    ],
+  },
+  {
+    title: 'Compare',
+    links: [
+      { label: 'Peanut vs Andis T-Outliner', href: '/vs/peanut-vs-andis-t-outliner' },
+      { label: 'Corded vs Cordless', href: '/vs/peanut-corded-vs-cordless' },
+      { label: 'All Comparisons', href: '/vs/' },
+    ],
+  },
+  {
+    title: 'Guides',
+    links: [
+      { label: 'How-To Guides', href: '/how-to/' },
+      { label: 'Troubleshooting', href: '/troubleshooting/' },
+      { label: 'Accessories', href: '/accessories/' },
+      { label: 'Blog', href: '/blog/' },
+    ],
+  },
+];
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">
+        <svg class="footer-peanut" viewBox="0 0 28 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <ellipse cx="14" cy="11" rx="9" ry="10" fill="url(#fp-grad)"/>
+          <ellipse cx="14" cy="30" rx="8" ry="9" fill="url(#fp-grad)"/>
+          <rect x="9" y="17" width="10" height="7" rx="1" fill="url(#fp-grad)"/>
+          <line x1="11" y1="7" x2="11" y2="15" stroke="rgba(10,10,10,0.3)" stroke-width="1" stroke-linecap="round"/>
+          <line x1="14" y1="5" x2="14" y2="17" stroke="rgba(10,10,10,0.3)" stroke-width="1" stroke-linecap="round"/>
+          <line x1="17" y1="7" x2="17" y2="15" stroke="rgba(10,10,10,0.3)" stroke-width="1" stroke-linecap="round"/>
+          <line x1="11" y1="25" x2="11" y2="37" stroke="rgba(10,10,10,0.3)" stroke-width="1" stroke-linecap="round"/>
+          <line x1="14" y1="24" x2="14" y2="38" stroke="rgba(10,10,10,0.3)" stroke-width="1" stroke-linecap="round"/>
+          <line x1="17" y1="25" x2="17" y2="37" stroke="rgba(10,10,10,0.3)" stroke-width="1" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="fp-grad" x1="5" y1="0" x2="23" y2="40" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#888"/>
+              <stop offset="50%" stop-color="#555"/>
+              <stop offset="100%" stop-color="#777"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="footer-logo-text">PEANUT CLIPPERS</span>
+      </a>
+        <p class="footer-tagline">
+          The most thorough resource for Wahl Peanut clippers — reviews, guides, and comparisons for barbers and home users.
+        </p>
+        <p class="footer-disclosure">
+          PeanutClippers.com is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com.
+        </p>
+      </div>
+
+      {sections.map(section => (
+        <div class="footer-section">
+          <h4 class="footer-section-title">{section.title}</h4>
+          <ul class="footer-links">
+            {section.links.map(link => (
+              <li>
+                <a href={link.href} class="footer-link">{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">© {year} PeanutClippers.com · All rights reserved</p>
+      <div class="footer-legal">
+        <a href="/privacy" class="footer-legal-link">Privacy Policy</a>
+        <a href="/disclaimer" class="footer-legal-link">Affiliate Disclaimer</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+.site-footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: var(--space-16) 0 var(--space-8);
+  margin-top: auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-10);
+  margin-bottom: var(--space-10);
+}
+
+.footer-brand { }
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  text-decoration: none;
+}
+
+.footer-peanut {
+  width: 14px;
+  height: 20px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.footer-logo-text {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  color: var(--chrome-bright);
+}
+
+.footer-tagline {
+  font-size: 0.875rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: var(--space-4);
+}
+
+.footer-disclosure {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  font-style: italic;
+  margin: 0;
+}
+
+.footer-section-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--chrome-dim);
+  margin-bottom: var(--space-4);
+  margin-top: 0;
+}
+
+.footer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer-link {
+  font-size: 0.875rem;
+  color: var(--text-dim);
+  transition: color var(--transition);
+}
+
+.footer-link:hover {
+  color: var(--chrome);
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border);
+}
+
+.footer-copy {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+.footer-legal {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.footer-legal-link {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  transition: color var(--transition);
+}
+
+.footer-legal-link:hover {
+  color: var(--chrome);
+}
+
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: var(--space-3);
+    text-align: center;
+  }
+}
+</style>

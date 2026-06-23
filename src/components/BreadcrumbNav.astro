@@ -1,0 +1,96 @@
+---
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  crumbs: Crumb[];
+}
+
+const { crumbs } = Astro.props;
+const siteUrl = 'https://peanutclippers.com';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": siteUrl,
+    },
+    ...crumbs.map((crumb, i) => ({
+      "@type": "ListItem",
+      "position": i + 2,
+      "name": crumb.label,
+      ...(crumb.href ? { "item": `${siteUrl}${crumb.href}` } : {}),
+    })),
+  ],
+};
+---
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+      <a href="/" class="breadcrumb-link">Home</a>
+    </li>
+    {crumbs.map((crumb, i) => (
+      <li class="breadcrumb-item">
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        {crumb.href && i < crumbs.length - 1 ? (
+          <a href={crumb.href} class="breadcrumb-link">{crumb.label}</a>
+        ) : (
+          <span class="breadcrumb-current" aria-current="page">{crumb.label}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+<style>
+.breadcrumb {
+  margin-bottom: var(--space-6);
+}
+
+.breadcrumb-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+}
+
+.breadcrumb-sep {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.breadcrumb-link {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  transition: color var(--transition);
+}
+
+.breadcrumb-link:hover {
+  color: var(--chrome);
+}
+
+.breadcrumb-current {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+</style>

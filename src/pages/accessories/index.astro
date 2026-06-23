@@ -1,0 +1,117 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import StarRating from '../../components/StarRating.astro';
+
+const accessories = await getCollection('accessories');
+---
+
+<BaseLayout
+  title="Wahl Peanut Accessories — Best Blades, Guards, Oil & Cases"
+  description="The best accessories for your Wahl Peanut. Replacement blades, guard sets, blade oil, travel cases, and sharpening kits — all tested and recommended."
+>
+  <Header />
+  <main>
+    <section class="hub-hero">
+      <div class="container">
+        <p class="section-label">Accessories</p>
+        <h1>Best Wahl Peanut Accessories</h1>
+        <p class="hub-sub">Everything you need to keep your Peanut cutting perfectly — replacement blades, guard sets, oil, and more.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="acc-grid">
+          {accessories.map(acc => (
+            <a href={`/accessories/${acc.id}`} class="acc-card card card--amber" id={`acc-${acc.id}`}>
+              <div class="acc-top">
+                <span class="acc-icon">📦</span>
+                <span class="acc-category badge badge--priority">{acc.data.category}</span>
+              </div>
+              <h2 class="acc-title">{acc.data.title}</h2>
+              <p class="acc-desc">{acc.data.description}</p>
+              {acc.data.topPick && (
+                <div class="acc-pick">
+                  <span class="acc-pick-label">Top Pick:</span>
+                  <span class="acc-pick-name">{acc.data.topPick.name}</span>
+                  {acc.data.topPick.price && <span class="acc-price">{acc.data.topPick.price}</span>}
+                </div>
+              )}
+              <span class="acc-read">View Recommendations →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+.hub-hero {
+  padding: var(--space-16) 0 var(--space-8);
+  border-bottom: 1px solid var(--border);
+}
+.hub-sub {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin-top: var(--space-3);
+  max-width: 600px;
+}
+.acc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+.acc-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  text-decoration: none;
+}
+.acc-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.acc-icon { font-size: 1.5rem; }
+.acc-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.3;
+}
+.acc-desc {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin: 0;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.acc-pick {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.8rem;
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.acc-pick-label { color: var(--text-dim); }
+.acc-pick-name { color: var(--text-muted); font-weight: 500; flex: 1; }
+.acc-price { font-weight: 700; color: var(--amber); }
+.acc-read {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--amber);
+  transition: transform var(--transition);
+}
+.acc-card:hover .acc-read { transform: translateX(3px); }
+</style>

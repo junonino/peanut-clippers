@@ -1,0 +1,35 @@
+---
+import { getCollection, render } from 'astro:content';
+import VsLayout from '../../layouts/VsLayout.astro';
+
+export async function getStaticPaths() {
+  const comparisons = await getCollection('vs');
+  return comparisons.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { data } = entry;
+---
+
+<VsLayout
+  title={data.title}
+  description={data.description}
+  productA={data.productA}
+  productB={data.productB}
+  productAUrl={data.productAUrl}
+  productBUrl={data.productBUrl}
+  productAPrice={data.productAPrice}
+  productBPrice={data.productBPrice}
+  winner={data.winner}
+  winnerReason={data.winnerReason}
+  audience={data.audience}
+  pubDate={data.pubDate}
+  updatedDate={data.updatedDate}
+  slug={entry.id}
+>
+  <Content />
+</VsLayout>

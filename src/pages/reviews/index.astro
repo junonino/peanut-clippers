@@ -1,0 +1,147 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import StarRating from '../../components/StarRating.astro';
+
+const reviews = await getCollection('reviews');
+reviews.sort((a, b) => b.data.rating - a.data.rating);
+---
+
+<BaseLayout
+  title="Wahl Peanut Reviews — All Models Compared & Rated"
+  description="In-depth reviews of every Wahl Peanut clipper model. Independently tested and rated for barbers and at-home users. Find the right one for your needs."
+>
+  <Header />
+
+  <main>
+    <section class="hub-hero">
+      <div class="container">
+        <p class="section-label">Reviews</p>
+        <h1>Wahl Peanut Reviews</h1>
+        <p class="hub-sub">Every Wahl Peanut model reviewed, rated, and compared — so you don't have to guess.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="reviews-grid">
+          {reviews.map(review => (
+            <a href={`/reviews/${review.id}`} class="review-hub-card card card--amber" id={`review-${review.id}`}>
+              <div class="rhc-top">
+                <span class="rhc-icon">✂</span>
+                <StarRating rating={review.data.rating} size="sm" />
+              </div>
+              <h2 class="rhc-title">{review.data.product}</h2>
+              <p class="rhc-desc">{review.data.verdict}</p>
+              <div class="rhc-meta">
+                {review.data.audience.map(a => (
+                  <span class={`badge badge--${a === 'barbers' ? 'barber' : 'home'} badge--xs`}>
+                    {a === 'barbers' ? '✂ Barbers' : '🏠 At-Home'}
+                  </span>
+                ))}
+              </div>
+              <div class="rhc-footer">
+                {review.data.amazonPrice && (
+                  <span class="rhc-price">{review.data.amazonPrice}</span>
+                )}
+                <span class="rhc-read">Read Review →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+.hub-hero {
+  padding: var(--space-16) 0 var(--space-8);
+  border-bottom: 1px solid var(--border);
+}
+
+.hub-sub {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin-top: var(--space-3);
+  max-width: 600px;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-6);
+}
+
+.review-hub-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  text-decoration: none;
+}
+
+.rhc-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rhc-icon {
+  font-size: 1.75rem;
+  color: var(--chrome-dim);
+}
+
+.rhc-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.rhc-desc {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 0;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.rhc-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.rhc-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border);
+}
+
+.rhc-price {
+  font-weight: 700;
+  color: var(--chrome-bright);
+}
+
+.rhc-read {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--amber);
+  transition: transform var(--transition);
+}
+
+.review-hub-card:hover .rhc-read {
+  transform: translateX(3px);
+}
+</style>

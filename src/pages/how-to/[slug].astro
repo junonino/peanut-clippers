@@ -1,0 +1,31 @@
+---
+import { getCollection, render } from 'astro:content';
+import HowToLayout from '../../layouts/HowToLayout.astro';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('howTo');
+  return guides.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { data } = entry;
+---
+
+<HowToLayout
+  title={data.title}
+  description={data.description}
+  difficulty={data.difficulty}
+  timeEstimate={data.timeEstimate}
+  toolsNeeded={data.toolsNeeded}
+  audience={data.audience}
+  relatedProducts={data.relatedProducts}
+  pubDate={data.pubDate}
+  updatedDate={data.updatedDate}
+  slug={entry.id}
+>
+  <Content />
+</HowToLayout>

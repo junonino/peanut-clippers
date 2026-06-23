@@ -1,0 +1,253 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BreadcrumbNav from '../components/BreadcrumbNav.astro';
+import AffiliateButton from '../components/AffiliateButton.astro';
+import BaseLayout from './BaseLayout.astro';
+
+interface RelatedProduct {
+  name: string;
+  url: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  timeEstimate: string;
+  toolsNeeded: string[];
+  audience: ('barbers' | 'at-home')[];
+  relatedProducts?: RelatedProduct[];
+  pubDate: Date;
+  updatedDate?: Date;
+  slug: string;
+}
+
+const {
+  title,
+  description,
+  difficulty,
+  timeEstimate,
+  toolsNeeded,
+  audience,
+  relatedProducts = [],
+  pubDate,
+  updatedDate,
+  slug,
+} = Astro.props;
+
+const difficultyColor = {
+  Easy: 'var(--green)',
+  Medium: 'var(--amber)',
+  Hard: 'var(--red)',
+}[difficulty];
+
+// HowTo schema for Google rich results
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": title,
+  "description": description,
+  "totalTime": timeEstimate,
+};
+---
+
+<BaseLayout title={title} description={description} schema={howToSchema}>
+  <Header />
+
+  <main>
+    <article class="howto-article">
+      <div class="container container--narrow">
+        <BreadcrumbNav crumbs={[
+          { label: 'How-To', href: '/how-to/' },
+          { label: title },
+        ]} />
+
+        <header class="howto-header">
+          <div class="review-meta">
+            {audience.map(a => (
+              <span class={`badge badge--${a === 'barbers' ? 'barber' : 'home'}`}>
+                {a === 'barbers' ? '✂ Barbers' : '🏠 At-Home'}
+              </span>
+            ))}
+          </div>
+
+          <h1>{title}</h1>
+          <p class="howto-intro">{description}</p>
+
+          <!-- Quick stats -->
+          <div class="howto-stats">
+            <div class="howto-stat">
+              <span class="howto-stat-label">Time</span>
+              <span class="howto-stat-value">⏱ {timeEstimate}</span>
+            </div>
+            <div class="howto-stat">
+              <span class="howto-stat-label">Difficulty</span>
+              <span class="howto-stat-value" style={`color: ${difficultyColor}`}>
+                {difficulty === 'Easy' ? '●' : difficulty === 'Medium' ? '●●' : '●●●'} {difficulty}
+              </span>
+            </div>
+          </div>
+        </header>
+
+        <!-- Tools needed -->
+        {toolsNeeded.length > 0 && (
+          <div class="tools-card">
+            <h3 class="tools-title">
+              🔧 What You'll Need
+            </h3>
+            <ul class="tools-list">
+              {toolsNeeded.map(tool => (
+                <li class="tools-item">
+                  <span class="tools-check">✓</span>
+                  {tool}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <!-- MDX content -->
+        <div class="prose">
+          <slot />
+        </div>
+
+        <!-- Related products -->
+        {relatedProducts.length > 0 && (
+          <div class="related-products">
+            <h3>Recommended Products</h3>
+            <div class="related-products-grid">
+              {relatedProducts.map(p => (
+                <AffiliateButton
+                  href={p.url}
+                  productKey={p.name.toLowerCase().replace(/\s+/g, '-')}
+                  label={p.name}
+                  size="sm"
+                  position="related"
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+.howto-article {
+  padding: var(--space-10) 0 var(--space-20);
+}
+
+.howto-header {
+  margin-bottom: var(--space-8);
+}
+
+.howto-intro {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.review-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.howto-stats {
+  display: flex;
+  gap: var(--space-8);
+  padding: var(--space-4) var(--space-6);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  width: fit-content;
+}
+
+.howto-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.howto-stat-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.howto-stat-value {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.tools-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--chrome);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin: var(--space-8) 0;
+}
+
+.tools-title {
+  font-size: 1rem;
+  margin-bottom: var(--space-4);
+  color: var(--chrome);
+  margin-top: 0;
+}
+
+.tools-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-3);
+}
+
+.tools-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.tools-check {
+  color: var(--green);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.related-products {
+  margin-top: var(--space-12);
+  padding: var(--space-6);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+}
+
+.related-products h3 {
+  margin-bottom: var(--space-4);
+  font-size: 1.1rem;
+  margin-top: 0;
+}
+
+.related-products-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+</style>

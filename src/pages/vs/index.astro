@@ -1,0 +1,129 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+const comparisons = await getCollection('vs');
+comparisons.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<BaseLayout
+  title="Wahl Peanut Comparisons — vs Andis, Babyliss, and More"
+  description="Head-to-head comparisons of the Wahl Peanut against every major competitor. Side-by-side specs, performance analysis, and clear buying recommendations."
+>
+  <Header />
+  <main>
+    <section class="hub-hero">
+      <div class="container">
+        <p class="section-label">Comparisons</p>
+        <h1>Wahl Peanut — Head-to-Head</h1>
+        <p class="hub-sub">Not sure which clipper to buy? We've done the side-by-side research so you can decide in minutes.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="vs-grid">
+          {comparisons.map(comp => (
+            <a href={`/vs/${comp.id}`} class="vs-hub-card card card--chrome" id={`vs-${comp.id}`}>
+              <div class="vhc-matchup">
+                <span class="vhc-product vhc-a">{comp.data.productA}</span>
+                <span class="vhc-vs">vs</span>
+                <span class="vhc-product vhc-b">{comp.data.productB}</span>
+              </div>
+              <p class="vhc-desc">{comp.data.description}</p>
+              <div class="vhc-winner">
+                <span class="vhc-winner-label">Our pick:</span>
+                <span class="vhc-winner-name">{comp.data.winner}</span>
+              </div>
+              <span class="vhc-read">Compare Now →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+.hub-hero {
+  padding: var(--space-16) 0 var(--space-8);
+  border-bottom: 1px solid var(--border);
+}
+.hub-sub {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin-top: var(--space-3);
+  max-width: 600px;
+}
+.vs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-6);
+}
+.vs-hub-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  text-decoration: none;
+}
+.vhc-matchup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.vhc-product {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.vhc-a { color: var(--chrome-bright); }
+.vhc-b { color: var(--amber); }
+.vhc-vs {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+}
+.vhc-desc {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 0;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.vhc-winner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border);
+}
+.vhc-winner-label {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.vhc-winner-name {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--green);
+}
+.vhc-read {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--chrome);
+  transition: transform var(--transition);
+}
+.vs-hub-card:hover .vhc-read {
+  transform: translateX(3px);
+  color: var(--amber);
+}
+</style>

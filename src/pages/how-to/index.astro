@@ -1,0 +1,129 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+const guides = await getCollection('howTo');
+guides.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+const difficultyColor = { Easy: 'var(--green)', Medium: 'var(--amber)', Hard: 'var(--red)' };
+---
+
+<BaseLayout
+  title="Wahl Peanut How-To Guides — Blades, Fades, Cleaning & More"
+  description="Step-by-step guides for everything Wahl Peanut — changing blades, fading, oiling, cleaning, and adjusting your trimmer for the best results."
+>
+  <Header />
+  <main>
+    <section class="hub-hero">
+      <div class="container">
+        <p class="section-label">How-To Guides</p>
+        <h1>Learn Your Wahl Peanut</h1>
+        <p class="hub-sub">From blade changes to barbershop fades — step-by-step guides for barbers and at-home users.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="howto-grid">
+          {guides.map(guide => (
+            <a href={`/how-to/${guide.id}`} class="howto-hub-card card card--chrome" id={`howto-${guide.id}`}>
+              <div class="hhc-top">
+                <span class="hhc-icon">🔧</span>
+                <div class="hhc-meta">
+                  <span class="hhc-time">⏱ {guide.data.timeEstimate}</span>
+                  <span class="hhc-diff" style={`color: ${difficultyColor[guide.data.difficulty]}`}>
+                    {guide.data.difficulty}
+                  </span>
+                </div>
+              </div>
+              <h2 class="hhc-title">{guide.data.title}</h2>
+              <p class="hhc-desc">{guide.data.description}</p>
+              <div class="hhc-audience">
+                {guide.data.audience.map(a => (
+                  <span class={`badge badge--${a === 'barbers' ? 'barber' : 'home'}`}>
+                    {a === 'barbers' ? '✂ Barbers' : '🏠 At-Home'}
+                  </span>
+                ))}
+              </div>
+              <span class="hhc-read">View Guide →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+.hub-hero {
+  padding: var(--space-16) 0 var(--space-8);
+  border-bottom: 1px solid var(--border);
+}
+.hub-sub {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin-top: var(--space-3);
+  max-width: 600px;
+}
+.howto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+.howto-hub-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  text-decoration: none;
+}
+.hhc-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.hhc-icon { font-size: 1.5rem; }
+.hhc-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 0.8rem;
+}
+.hhc-time { color: var(--text-dim); }
+.hhc-diff { font-weight: 600; font-size: 0.75rem; }
+.hhc-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.35;
+}
+.hhc-desc {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 0;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.hhc-audience {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+.hhc-read {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--chrome);
+  transition: transform var(--transition);
+}
+.howto-hub-card:hover .hhc-read {
+  transform: translateX(3px);
+  color: var(--amber);
+}
+</style>

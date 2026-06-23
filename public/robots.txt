@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://peanutclippers.com/sitemap-index.xml

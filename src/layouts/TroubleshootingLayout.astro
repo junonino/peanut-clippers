@@ -1,0 +1,186 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BreadcrumbNav from '../components/BreadcrumbNav.astro';
+import AffiliateButton from '../components/AffiliateButton.astro';
+import BaseLayout from './BaseLayout.astro';
+
+interface RelatedProduct {
+  name: string;
+  url: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  problem: string;
+  quickFix: string;
+  severity: 'Low' | 'Medium' | 'High';
+  relatedProducts?: RelatedProduct[];
+  pubDate: Date;
+  updatedDate?: Date;
+  section: string;
+}
+
+const {
+  title,
+  description,
+  problem,
+  quickFix,
+  severity,
+  relatedProducts = [],
+  pubDate,
+  updatedDate,
+  section,
+} = Astro.props;
+
+const severityInfo = {
+  Low:    { color: 'var(--green)', label: 'Minor Issue', icon: '●' },
+  Medium: { color: 'var(--amber)', label: 'Moderate Issue', icon: '●●' },
+  High:   { color: 'var(--red)',   label: 'Serious Issue', icon: '●●●' },
+}[severity];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": problem,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": quickFix,
+      },
+    },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description} schema={faqSchema}>
+  <Header />
+
+  <main>
+    <article class="trouble-article">
+      <div class="container container--narrow">
+        <BreadcrumbNav crumbs={[
+          { label: 'Troubleshooting', href: '/troubleshooting/' },
+          { label: problem },
+        ]} />
+
+        <header class="trouble-header">
+          <div class="trouble-severity" style={`color: ${severityInfo.color}`}>
+            <span>{severityInfo.icon}</span>
+            <span>{severityInfo.label}</span>
+          </div>
+          <h1>{title}</h1>
+          <p class="trouble-intro">{description}</p>
+        </header>
+
+        <!-- Quick fix box -->
+        <div class="quick-fix-box">
+          <div class="quick-fix-label">
+            ⚡ Quick Fix
+          </div>
+          <p class="quick-fix-text">{quickFix}</p>
+        </div>
+
+        <!-- MDX content -->
+        <div class="prose">
+          <slot />
+        </div>
+
+        <!-- Related products if fix requires buying something -->
+        {relatedProducts.length > 0 && (
+          <div class="trouble-products">
+            <h3>Products That May Help</h3>
+            <div class="trouble-products-list">
+              {relatedProducts.map(p => (
+                <AffiliateButton
+                  href={p.url}
+                  productKey={p.name.toLowerCase().replace(/\s+/g, '-')}
+                  label={p.name}
+                  size="sm"
+                  position="troubleshooting"
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+.trouble-article {
+  padding: var(--space-10) 0 var(--space-20);
+}
+
+.trouble-header {
+  margin-bottom: var(--space-8);
+}
+
+.trouble-severity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+}
+
+.trouble-intro {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-top: var(--space-4);
+}
+
+.quick-fix-box {
+  background: linear-gradient(135deg, rgba(34,197,94,0.08), rgba(34,197,94,0.04));
+  border: 1px solid rgba(34,197,94,0.25);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6) var(--space-7);
+  margin: var(--space-8) 0;
+}
+
+.quick-fix-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: var(--space-3);
+}
+
+.quick-fix-text {
+  font-size: 1rem;
+  color: var(--text);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.trouble-products {
+  margin-top: var(--space-10);
+  padding: var(--space-6);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+}
+
+.trouble-products h3 {
+  margin-bottom: var(--space-4);
+  margin-top: 0;
+  font-size: 1rem;
+}
+
+.trouble-products-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+</style>

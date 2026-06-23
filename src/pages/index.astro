@@ -1,0 +1,461 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import AffiliateButton from '../components/AffiliateButton.astro';
+import StarRating from '../components/StarRating.astro';
+
+const featuredProducts = [
+  {
+    key: 'wahl-peanut-corded',
+    name: 'Wahl Peanut Corded',
+    tagline: 'The barbershop standard',
+    rating: 4.5,
+    price: '$29.99',
+    href: '/reviews/wahl-peanut-classic-corded',
+    amazonUrl: 'https://www.amazon.com/dp/B00001XXXX?tag=peanutclippers-20',
+    badge: 'Best Value',
+  },
+  {
+    key: 'wahl-peanut-lithium',
+    name: 'Wahl Peanut Cordless Li',
+    tagline: 'Full freedom, same precision',
+    rating: 4.2,
+    price: '$54.99',
+    href: '/reviews/wahl-peanut-li-cordless',
+    amazonUrl: 'https://www.amazon.com/dp/B00001YYYY?tag=peanutclippers-20',
+    badge: 'Most Flexible',
+  },
+  {
+    key: 'wahl-peanut-chrome',
+    name: 'Wahl Peanut Chrome',
+    tagline: 'Same performance, sharper look',
+    rating: 4.3,
+    price: '$34.99',
+    href: '/reviews/wahl-peanut-chrome',
+    amazonUrl: 'https://www.amazon.com/dp/B00002AAAA?tag=peanutclippers-20',
+    badge: 'Fan Favorite',
+  },
+];
+
+const categories = [
+  { icon: '⭐', title: 'In-Depth Reviews', desc: 'Every Peanut model, tested and rated honestly.', href: '/reviews/' },
+  { icon: '⚡', title: 'Comparisons', desc: 'Peanut vs competitors, side by side.', href: '/vs/' },
+  { icon: '🔧', title: 'How-To Guides', desc: 'Blade changes, fading, cleaning, and more.', href: '/how-to/' },
+  { icon: '🛠', title: 'Troubleshooting', desc: 'Fix blade heat, cutting issues, noise, and more.', href: '/troubleshooting/' },
+  { icon: '📦', title: 'Accessories', desc: 'Best blades, guards, oil, and travel cases.', href: '/accessories/' },
+  { icon: '📝', title: 'Blog', desc: 'Deals, barber tips, and guides.', href: '/blog/' },
+];
+---
+
+<BaseLayout
+  title="Peanut Clippers — Wahl Peanut Reviews, Guides & Comparisons"
+  description="The most comprehensive resource for Wahl Peanut clippers. Expert reviews, how-to guides, comparisons, and accessories for barbers and at-home users."
+>
+  <Header />
+
+  <main>
+    <!-- ── Hero ────────────────────────────────── -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="container hero-content">
+        <div class="hero-eyebrow">
+          <span class="badge badge--barber">✂ For Barbers</span>
+          <span class="badge badge--home">🏠 For At-Home</span>
+        </div>
+        <h1 class="hero-h1 display-heading">
+          The Wahl Peanut<br/>
+          <span class="highlight-chrome">Expert Resource</span>
+        </h1>
+        <p class="hero-sub">
+          Honest reviews, step-by-step guides, and head-to-head comparisons — everything you need to get the most out of the world's most trusted compact trimmer.
+        </p>
+        <div class="hero-actions">
+          <a href="/reviews/" class="btn btn--amazon btn--lg" id="hero-cta-reviews">Read the Reviews</a>
+          <a href="/vs/" class="btn btn--ghost btn--lg" id="hero-cta-compare">Compare Models</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Featured Products ──────────────────── -->
+    <section class="section featured-section">
+      <div class="container">
+        <p class="section-label">Top Picks</p>
+        <h2>Best Wahl Peanut Models of 2025</h2>
+        <p class="section-sub">We've tested every model. Here are the three worth your money.</p>
+
+        <div class="featured-grid">
+          {featuredProducts.map(product => (
+            <div class="product-card card card--amber" id={`product-card-${product.key}`}>
+              <div class="product-card-top">
+                <span class="product-badge">{product.badge}</span>
+                <div class="product-icon">✂</div>
+              </div>
+              <h3 class="product-name">{product.name}</h3>
+              <p class="product-tagline">{product.tagline}</p>
+              <div class="product-rating">
+                <StarRating rating={product.rating} size="sm" />
+              </div>
+              <div class="product-price">{product.price}</div>
+              <div class="product-actions">
+                <AffiliateButton
+                  href={product.amazonUrl}
+                  productKey={product.key}
+                  label="Buy on Amazon"
+                  price={product.price}
+                  size="sm"
+                  position="featured-card"
+                />
+                <a href={product.href} class="btn btn--ghost btn--sm">Read Review →</a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Category Grid ────────────────────── -->
+    <section class="section category-section">
+      <div class="container">
+        <p class="section-label">Browse By Topic</p>
+        <h2>Everything About the Wahl Peanut</h2>
+        <div class="category-grid">
+          {categories.map(cat => (
+            <a href={cat.href} class="category-card card card--chrome" id={`nav-${cat.href.replace(/\//g, '')}`}>
+              <span class="category-icon">{cat.icon}</span>
+              <h3 class="category-title">{cat.title}</h3>
+              <p class="category-desc">{cat.desc}</p>
+              <span class="category-arrow">→</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Audience CTA Split ─────────────────── -->
+    <section class="section audience-section">
+      <div class="container">
+        <div class="audience-split">
+          <div class="audience-card audience-card--barber">
+            <p class="section-label">For Barbers</p>
+            <h2>Upgrade Your Kit</h2>
+            <p>The Peanut has been in professional shops for decades. Find the right model for your station, compare it against the competition, and learn pro techniques.</p>
+            <div class="audience-links">
+              <a href="/vs/peanut-vs-andis-t-outliner" class="btn btn--ghost btn--sm">Peanut vs T-Outliner</a>
+              <a href="/how-to/change-wahl-peanut-blade" class="btn btn--ghost btn--sm">Blade Maintenance</a>
+            </div>
+          </div>
+          <div class="audience-card audience-card--home">
+            <p class="section-label" style="color: var(--green)">For At-Home</p>
+            <h2>Cut Your Own Hair</h2>
+            <p>The Wahl Peanut is one of the best at-home trimmers for first-timers. Learn which model to start with, what guards you need, and how to get a clean fade at home.</p>
+            <div class="audience-links">
+              <a href="/reviews/wahl-peanut-classic-corded" class="btn btn--ghost btn--sm">Best Budget Pick</a>
+              <a href="/accessories/guards-and-combs" class="btn btn--ghost btn--sm">What Guards You Need</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Quick Fix Section ──────────────────── -->
+    <section class="section quickfix-section">
+      <div class="container">
+        <p class="section-label">Common Problems, Fast Fixes</p>
+        <h2>Wahl Peanut Troubleshooting</h2>
+        <div class="quickfix-grid">
+          <a href="/troubleshooting/peanut-not-cutting-properly" class="quickfix-item" id="qf-not-cutting">
+            <span class="quickfix-icon">⚙️</span>
+            <span class="quickfix-label">Peanut Not Cutting?</span>
+            <span class="quickfix-arrow">→</span>
+          </a>
+          <a href="/troubleshooting/blade-running-hot" class="quickfix-item" id="qf-blade-hot">
+            <span class="quickfix-icon">🔥</span>
+            <span class="quickfix-label">Blade Running Hot?</span>
+            <span class="quickfix-arrow">→</span>
+          </a>
+          <a href="/troubleshooting/" class="quickfix-item" id="qf-all">
+            <span class="quickfix-icon">🔧</span>
+            <span class="quickfix-label">All Troubleshooting Guides</span>
+            <span class="quickfix-arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+/* ── Hero ───────────────────────────────── */
+.hero {
+  position: relative;
+  padding: var(--space-24) 0 var(--space-20);
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -20%, rgba(192,192,192,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 50%, rgba(245,158,11,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.hero-eyebrow {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+}
+
+.hero-h1 {
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 1;
+  letter-spacing: 0.03em;
+}
+
+.hero-sub {
+  max-width: 600px;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: var(--space-2);
+}
+
+/* ── Featured products ─────────────────── */
+.featured-section { background: var(--surface); }
+
+.section-sub {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-bottom: var(--space-8);
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.product-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.product-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber);
+  background: rgba(245,158,11,0.1);
+  border: 1px solid rgba(245,158,11,0.2);
+  padding: 3px 10px;
+  border-radius: 99px;
+}
+
+.product-icon {
+  font-size: 1.5rem;
+  color: var(--chrome-dim);
+}
+
+.product-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.product-tagline {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.product-price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--chrome-bright);
+}
+
+.product-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.product-actions .affiliate-disclosure { display: none; }
+
+/* ── Category grid ─────────────────────── */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-5);
+  margin-top: var(--space-8);
+}
+
+.category-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-decoration: none;
+}
+
+.category-icon {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.category-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.category-desc {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 0;
+  flex: 1;
+}
+
+.category-arrow {
+  color: var(--chrome-dim);
+  font-size: 1.1rem;
+  transition: transform var(--transition), color var(--transition);
+}
+
+.category-card:hover .category-arrow {
+  transform: translateX(4px);
+  color: var(--amber);
+}
+
+/* ── Audience split ─────────────────────── */
+.audience-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+.audience-card {
+  padding: var(--space-10) var(--space-8);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+}
+
+.audience-card--barber {
+  background: linear-gradient(135deg, rgba(59,130,246,0.06), rgba(59,130,246,0.02));
+  border-color: rgba(59,130,246,0.15);
+}
+
+.audience-card--home {
+  background: linear-gradient(135deg, rgba(34,197,94,0.06), rgba(34,197,94,0.02));
+  border-color: rgba(34,197,94,0.15);
+}
+
+.audience-card h2 {
+  font-size: 1.75rem;
+  margin: var(--space-2) 0 var(--space-4);
+}
+
+.audience-card p {
+  color: var(--text-muted);
+  margin-bottom: var(--space-6);
+  line-height: 1.7;
+}
+
+.audience-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* ── Quick fix ──────────────────────────── */
+.quickfix-section {
+  background: var(--surface);
+  padding: var(--space-12) 0;
+}
+
+.quickfix-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  max-width: 600px;
+}
+
+.quickfix-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-6);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.quickfix-item:hover {
+  border-color: var(--amber-dim);
+  background: rgba(245,158,11,0.04);
+}
+
+.quickfix-icon { font-size: 1.25rem; }
+
+.quickfix-label {
+  flex: 1;
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.quickfix-arrow {
+  color: var(--text-dim);
+  transition: color var(--transition), transform var(--transition);
+}
+
+.quickfix-item:hover .quickfix-arrow {
+  color: var(--amber);
+  transform: translateX(3px);
+}
+
+/* ── Responsive ─────────────────────────── */
+@media (max-width: 768px) {
+  .hero { padding: var(--space-16) 0; }
+  .hero-h1 { font-size: 3rem; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .btn { justify-content: center; }
+  .audience-split { grid-template-columns: 1fr; }
+  .audience-card { padding: var(--space-6); }
+}
+</style>

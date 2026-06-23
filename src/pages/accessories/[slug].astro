@@ -1,0 +1,109 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import AffiliateButton from '../../components/AffiliateButton.astro';
+import StarRating from '../../components/StarRating.astro';
+import BreadcrumbNav from '../../components/BreadcrumbNav.astro';
+
+export async function getStaticPaths() {
+  const accessories = await getCollection('accessories');
+  return accessories.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { data } = entry;
+---
+
+<BaseLayout title={data.title} description={data.description}>
+  <Header />
+  <main>
+    <article class="accessory-article">
+      <div class="container container--narrow">
+        <BreadcrumbNav crumbs={[
+          { label: 'Accessories', href: '/accessories/' },
+          { label: data.title },
+        ]} />
+
+        <header class="accessory-header">
+          <div class="accessory-meta">
+            <span class="badge badge--priority">📦 {data.category}</span>
+            {data.audience.map(a => (
+              <span class={`badge badge--${a === 'barbers' ? 'barber' : 'home'}`}>
+                {a === 'barbers' ? '✂ Barbers' : '🏠 At-Home'}
+              </span>
+            ))}
+          </div>
+          <h1>{data.title}</h1>
+          <p class="accessory-intro">{data.description}</p>
+        </header>
+
+        {data.topPick && (
+          <div class="top-pick-box">
+            <div class="top-pick-label">⭐ Our Top Pick</div>
+            <div class="top-pick-name">{data.topPick.name}</div>
+            {data.topPick.rating && <StarRating rating={data.topPick.rating} size="md" />}
+            <AffiliateButton
+              href={data.topPick.url}
+              productKey={entry.id}
+              price={data.topPick.price}
+              size="md"
+              position="top-pick"
+            />
+          </div>
+        )}
+
+        <div class="prose">
+          <Content />
+        </div>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+.accessory-article {
+  padding: var(--space-10) 0 var(--space-20);
+}
+.accessory-header { margin-bottom: var(--space-8); }
+.accessory-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.accessory-intro {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-top: var(--space-4);
+}
+.top-pick-box {
+  background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(245,158,11,0.03));
+  border: 1px solid rgba(245,158,11,0.25);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6) var(--space-8);
+  margin: var(--space-8) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.top-pick-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.top-pick-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+}
+</style>
