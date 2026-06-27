@@ -49,8 +49,12 @@ comparisons.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 
 <style>
 .hub-hero {
-  padding: var(--space-16) 0 var(--space-8);
+  padding: var(--space-10) 0 var(--space-6);
   border-bottom: 1px solid var(--border);
+  background-image: linear-gradient(rgba(10, 10, 10, 0.75), rgba(10, 10, 10, 0.75)), url('/compare-header.png');
+  background-size: cover;
+  background-position: right 30%;
+  background-repeat: no-repeat;
 }
 .hub-sub {
   color: var(--text-muted);
