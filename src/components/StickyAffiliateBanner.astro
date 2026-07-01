@@ -3,11 +3,10 @@ interface Props {
   href: string;
   productKey: string;
   productName: string;
-  price?: string;
   rating?: number;
 }
 
-const { href, productKey, productName, price, rating } = Astro.props;
+const { href, productKey, productName, rating } = Astro.props;
 ---
 
 <div class="sticky-banner" id="sticky-affiliate-banner">
@@ -20,7 +19,6 @@ const { href, productKey, productName, price, rating } = Astro.props;
       )}
     </div>
     <div class="sticky-actions">
-      {price && <span class="sticky-price">{price}</span>}
       <a
         href={href}
         target="_blank"
@@ -97,12 +95,6 @@ const { href, productKey, productName, price, rating } = Astro.props;
   align-items: center;
   gap: var(--space-4);
   flex-shrink: 0;
-}
-
-.sticky-price {
-  font-weight: 700;
-  color: var(--chrome);
-  font-size: 0.95rem;
 }
 
 .sticky-cta { animation: none; }

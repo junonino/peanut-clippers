@@ -98,7 +98,6 @@ const {
               href={productAUrl}
               productKey={`${slug}-a`}
               label="Buy on Amazon"
-              price={productAPrice}
               size="sm"
               position="top-a"
             />
@@ -111,7 +110,6 @@ const {
               href={productBUrl}
               productKey={`${slug}-b`}
               label="Buy on Amazon"
-              price={productBPrice}
               size="sm"
               position="top-b"
             />
@@ -132,11 +130,11 @@ const {
         <div class="vs-bottom-ctas">
           <div class="vs-bottom-cta">
             <h4>{productA}</h4>
-            <AffiliateButton href={productAUrl} productKey={`${slug}-a`} price={productAPrice} position="bottom-a" />
+            <AffiliateButton href={productAUrl} productKey={`${slug}-a`} position="bottom-a" />
           </div>
           <div class="vs-bottom-cta">
             <h4>{productB}</h4>
-            <AffiliateButton href={productBUrl} productKey={`${slug}-b`} price={productBPrice} position="bottom-b" />
+            <AffiliateButton href={productBUrl} productKey={`${slug}-b`} position="bottom-b" />
           </div>
         </div>
       </div>

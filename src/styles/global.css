@@ -213,6 +213,7 @@ li { margin-bottom: var(--space-2); }
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-2);
   padding: var(--space-3) var(--space-6);
   border-radius: var(--radius);
@@ -228,13 +229,13 @@ li { margin-bottom: var(--space-2); }
 
 .btn--amazon {
   background: linear-gradient(135deg, var(--amber), #e68a00);
-  color: #0a0a0a;
+  color: #0a0a0a !important;
   box-shadow: 0 4px 14px rgba(245,158,11,0.35);
 }
 
 .btn--amazon:hover {
   background: linear-gradient(135deg, var(--amber-hover), var(--amber));
-  color: #0a0a0a;
+  color: #0a0a0a !important;
   transform: translateY(-1px);
   box-shadow: 0 6px 20px rgba(245,158,11,0.5);
 }

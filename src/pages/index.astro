@@ -11,7 +11,7 @@ const featuredProducts = [
     name: "Wahl Peanut Corded",
     tagline: "The barbershop standard",
     rating: 4.5,
-    price: "$29.99",
+    features: ['Professional rotary motor', 'Ergonomic shape', 'Corded power'],
     href: "/reviews/wahl-peanut-classic-corded",
     amazonUrl: "https://www.amazon.com/dp/B00001XXXX?tag=peanutclippers-20",
     badge: "Best Value",
@@ -21,7 +21,7 @@ const featuredProducts = [
     name: "Wahl Peanut Cordless Li",
     tagline: "Full freedom, same precision",
     rating: 4.2,
-    price: "$54.99",
+    features: ['Premium chrome finish', 'Corded reliability', 'Sleek design'],
     href: "/reviews/wahl-peanut-li-cordless",
     amazonUrl: "https://www.amazon.com/dp/B00001YYYY?tag=peanutclippers-20",
     badge: "Most Flexible",
@@ -31,7 +31,6 @@ const featuredProducts = [
     name: "Wahl Peanut Chrome",
     tagline: "Same performance, sharper look",
     rating: 4.3,
-    price: "$34.99",
     href: "/reviews/wahl-peanut-chrome",
     amazonUrl: "https://www.amazon.com/dp/B00002AAAA?tag=peanutclippers-20",
     badge: "Fan Favorite",
@@ -140,13 +139,11 @@ const categories = [
                 <div class="product-rating">
                   <StarRating rating={product.rating} size="sm" />
                 </div>
-                <div class="product-price">{product.price}</div>
                 <div class="product-actions">
                   <AffiliateButton
                     href={product.amazonUrl}
                     productKey={product.key}
                     label="Buy on Amazon"
-                    price={product.price}
                     size="sm"
                     position="featured-card"
                   />
@@ -396,13 +393,8 @@ const categories = [
     margin: 0;
   }
 
-  .product-price {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--chrome-bright);
-  }
-
-  .product-actions {
+  .product-features {
+    list-style: none;
     display: flex;
     flex-direction: column;
     gap: var(--space-3);

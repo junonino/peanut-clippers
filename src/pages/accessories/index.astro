@@ -37,7 +37,6 @@ const accessories = await getCollection('accessories');
                 <div class="acc-pick">
                   <span class="acc-pick-label">Top Pick:</span>
                   <span class="acc-pick-name">{acc.data.topPick.name}</span>
-                  {acc.data.topPick.price && <span class="acc-price">{acc.data.topPick.price}</span>}
                 </div>
               )}
               <span class="acc-read">View Recommendations →</span>
@@ -110,7 +109,6 @@ const accessories = await getCollection('accessories');
 }
 .acc-pick-label { color: var(--text-dim); }
 .acc-pick-name { color: var(--text-muted); font-weight: 500; flex: 1; }
-.acc-price { font-weight: 700; color: var(--amber); }
 .acc-read {
   font-size: 0.85rem;
   font-weight: 600;

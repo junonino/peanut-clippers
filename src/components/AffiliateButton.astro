@@ -4,7 +4,6 @@ interface Props {
   productKey: string;
   label?: string;
   size?: 'sm' | 'md' | 'lg';
-  price?: string;
   /** Context for Umami tracking */
   position?: string;
   page?: string;
@@ -15,7 +14,6 @@ const {
   productKey,
   label = 'Check Price on Amazon',
   size = 'md',
-  price,
   position = 'inline',
   page = Astro.url.pathname,
 } = Astro.props;
@@ -37,7 +35,6 @@ const {
       <path d="M13.23 10.56V10c-1.94.02-3.99.42-3.99 2.67 0 1.16.61 1.95 1.63 1.95.76 0 1.43-.47 1.86-1.22.5-.93.5-1.8.5-2.84zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.35 14.3c-.21.17-.5.19-.74.06-1.04-.86-1.22-1.26-1.79-2.08-1.71 1.74-2.92 2.27-5.14 2.27-2.62 0-4.67-1.62-4.67-4.85 0-2.53 1.37-4.25 3.31-5.1 1.69-.74 4.04-.87 5.84-1.07v-.4c0-.73.06-1.6-.37-2.24-.38-.57-1.09-.8-1.73-.8-1.17 0-2.22.6-2.48 1.85-.05.27-.27.54-.54.55l-3.03-.33c-.26-.06-.54-.26-.47-.66C5.26 4.02 7.93 3 10.33 3c1.23 0 2.84.33 3.81 1.25C15.36 5.34 15.25 7 15.25 8.8v4.18c0 1.26.52 1.81 1.01 2.49.17.24.21.53-.01.71l-1.9 1.12z"/>
     </svg>
     {label}
-    {price && <span class="affiliate-price">{price}</span>}
   </a>
   <p class="affiliate-disclosure">
     ✦ We may earn a commission if you buy via this link, at no extra cost to you.
@@ -53,15 +50,8 @@ const {
 
 .affiliate-btn {
   animation: pulse-amber 3s infinite;
-}
-
-.affiliate-price {
-  background: rgba(0,0,0,0.2);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.85em;
-  font-weight: 700;
-  margin-left: var(--space-1);
+  align-self: center;
+  width: 75%;
 }
 
 .affiliate-disclosure {
